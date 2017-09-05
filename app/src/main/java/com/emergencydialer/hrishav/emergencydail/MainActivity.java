@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.call_list);
 
+        // since this apps depends on the call permission
+        checkPermission();
 
         // Create a list of words
         final ArrayList<Dial> dial = new ArrayList<Dial>();
@@ -50,13 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel:" + String.valueOf(dial)));
 
-                /*
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED)
-                {
-                    return;
-                }
-
-
                 startActivity(callIntent);
 
             }
@@ -67,5 +64,26 @@ public class MainActivity extends AppCompatActivity {
         // Make the {@link ListView} use the {@link WordAdapter} we created above, so that the
         // {@link ListView} will display list items for each {@link Word} in the list.
         listView.setAdapter(adapter);
+    }
+
+    public void checkPermission() {
+        // permission should be explicitly called if the sdk is greater than 23
+        if(Build.VERSION.SDK_INT > 23) {
+            if(ActivityCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE)!=PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 123);
+            }
+        }
+    }
+
+    // this method is called after the application calls requestPermission()
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 123) {
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+            } else {
+                finish();       // finish the activity
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
