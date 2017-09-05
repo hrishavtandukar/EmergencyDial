@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#fff"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/default_text_view"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        tools:text="100" />
+
+    <TextView
+        android:id="@+id/miwok_text_view"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/default_text_view"
+        tools:text="Polica" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="130dp"
+        android:layout_height="33dp"
+        android:layout_weight="0.05"
+        app:srcCompat="@drawable/call_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@+id/miwok_text_view"
+        android:layout_toRightOf="@+id/miwok_text_view" />
+
+</RelativeLayout>
